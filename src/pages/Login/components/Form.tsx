@@ -1,7 +1,7 @@
-import { useNavigate } from "@solidjs/router";
+import { useLocation, useNavigate } from "@solidjs/router";
 import { Button, Grid, Stack, TextField } from "@suid/material";
 import { AuthResponse } from "@supabase/supabase-js";
-import { Component, createEffect } from "solid-js";
+import { Component, createEffect, Show } from "solid-js";
 import { useForm } from "../../../contexts/form";
 import { ILoginForm } from "../Login";
 
@@ -9,6 +9,7 @@ interface iFormProps {}
 export const Form: Component<iFormProps> = () => {
   const [state, actions] = useForm<ILoginForm, AuthResponse>();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleSubmit = async () => {
     const { data, error } = await actions.submit();
@@ -55,23 +56,33 @@ export const Form: Component<iFormProps> = () => {
           size="large"
           fullWidth
           disabled={state.loading}>
-          Login {state.loading}
+          {location.pathname === "/login" ? "Login" : "Sign Up"}
         </Button>
-        {state.hasError && <span> Deu ruim</span>}
-        <Grid
-          container
-          justifyContent="space-between">
+
+        <Show when={location.pathname === "/login"}>
           <Grid
-            item
-            md="auto">
-            <Button color="primary">Forgot password?</Button>
+            container
+            justifyContent="space-between">
+            <Grid
+              item
+              md="auto">
+              <Button
+                onClick={() => alert("To be implemented")}
+                color="primary">
+                Forgot password?
+              </Button>
+            </Grid>
+            <Grid
+              item
+              md="auto">
+              <Button
+                color="primary"
+                onClick={() => navigate("/signup")}>
+                Create account
+              </Button>
+            </Grid>
           </Grid>
-          <Grid
-            item
-            md="auto">
-            <Button color="primary">Create account</Button>
-          </Grid>
-        </Grid>
+        </Show>
       </Stack>
     </form>
   );

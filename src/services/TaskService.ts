@@ -5,6 +5,9 @@ import { supabase } from "../utils/SupabaseClient";
 import { Database } from "../utils/types/Database";
 
 export class TaskService {
+  static deleteTask(id: number) {
+    return supabase.from('task').delete().match({ id })
+  }
   public static async createTask(task: Database["public"]["Tables"]["task"]["Insert"]) {
     return await supabase.from("task").insert(task);
   }

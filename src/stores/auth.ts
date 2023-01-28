@@ -1,5 +1,6 @@
 import { useNavigate } from "@solidjs/router";
 import { createSignal, createRoot, createEffect } from "solid-js";
+import toast from "solid-toast";
 import { ILoginForm } from "../pages/Login/Login";
 import { AuthService } from "../services/AuthService";
 import { supabase } from "../utils/SupabaseClient";
@@ -41,6 +42,12 @@ function createUseAuth() {
     setLoading(false);
     if (!res.error) {
       setUserUUID(res.data.user!.id)
+    } else {
+      if (res.error.message === "Email not confirmed") {
+        toast.error("Please verify your email")
+        return;
+      }
+      toast.error("Invalid credentials");
     }
 
     return res;
@@ -59,6 +66,7 @@ function createUseAuth() {
     if (!res.error) {
       setUserUUID(res.data.user!.id)
     }
+    toast.success("User created successfully, please verify your email")
     setLoading(false);
 
     return res;

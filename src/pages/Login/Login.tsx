@@ -25,6 +25,7 @@ export interface ILoginForm {
 }
 
 export const LoginFormHeader = () => {
+  const location = useLocation();
   return (
     <Paper
       sx={{
@@ -37,7 +38,7 @@ export const LoginFormHeader = () => {
         variant="h6"
         component="div"
         color={"primary.contrastText"}>
-        Login
+        {location.pathname === "/login" ? "Login" : "Sign Up"}
       </Typography>
     </Paper>
   );
@@ -73,11 +74,15 @@ export const LoginFormContainer: Component = () => {
   return (
     <Box sx={{ display: "flex", flex: "1 0" }}>
       <CenteredContainer>
-        <Stack spacing={0} width={400}>
+        <Stack
+          spacing={0}
+          width={400}>
           <LoginFormHeader />
           <LoginFormFieldsContainer>
             <FormProvider<ILoginForm, Promise<AuthResponse>>
-              submit={location.pathname === "/login" ? auth.signIn : auth.signUp}
+              submit={
+                location.pathname === "/login" ? auth.signIn : auth.signUp
+              }
               initialState={{
                 email: "gabriel.iflasher@gmail.com",
                 password: "123456",

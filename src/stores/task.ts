@@ -76,7 +76,33 @@ function createUseTask() {
     fetchAll();
   }
 
-  return { fetchAll, loading, tasks, updateTask, showFinished, setShowFinished, createTask, selectedTask, setSelectedTask, selectedField, setSelectedField };
+  async function deleteTask(id: number) {
+    setLoading(true);
+    const { data, error } = await TaskService.deleteTask(id);
+    setLoading(false);
+    if (error) {
+      return;
+    }
+    fetchAll();
+    setSelectedTask(initialTaskValue);
+    setSelectedField(null);
+    toast.success("Task deleted successfully");
+  }
+
+  return {
+    fetchAll,
+    loading,
+    tasks,
+    updateTask,
+    showFinished,
+    setShowFinished,
+    createTask,
+    selectedTask,
+    setSelectedTask,
+    selectedField,
+    setSelectedField,
+    deleteTask
+  };
 }
 
 export const useTaskStore = createRoot(createUseTask);
