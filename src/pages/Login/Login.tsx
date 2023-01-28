@@ -84,8 +84,8 @@ export const LoginFormContainer: Component = () => {
                 location.pathname === "/login" ? auth.signIn : auth.signUp
               }
               initialState={{
-                email: "gabriel.iflasher@gmail.com",
-                password: "123456",
+                email: "",
+                password: "",
               }}>
               <Form />
             </FormProvider>

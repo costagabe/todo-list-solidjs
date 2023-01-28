@@ -37,9 +37,7 @@ export const Home: Component = () => {
     await createTask(values);
     fetchAll();
   }
-  createEffect(() => {
-    console.log(selectedTask(), "selectedTask");
-  });
+
   return (
     <>
       <TheProtectedAppBar />

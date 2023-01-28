@@ -45,7 +45,7 @@ function createUseAuth() {
     } else {
       if (res.error.message === "Email not confirmed") {
         toast.error("Please verify your email")
-        return;
+        return res;
       }
       toast.error("Invalid credentials");
     }

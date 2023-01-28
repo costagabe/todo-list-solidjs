@@ -13,8 +13,6 @@ export class TaskService {
   }
 
   public static async updateTask(id: number, task: iTaskForm) {
-    console.log(id, task, '...........');
-
     return await supabase
       .from("task")
       .update({
