@@ -66,8 +66,9 @@ function createUseAuth() {
     setLoading(true);
     const res = await AuthService.signUp({ email, password });
     if (!res.error) {
-      if (res.data.user) {
+      if (res.data.user && res.data.user.email) {
         setUserUUID(res.data.user.id);
+        await AuthService.createUser(res.data.user.id, res.data.user.email);
       }
     }
     toast.success("User created successfully, please verify your email");

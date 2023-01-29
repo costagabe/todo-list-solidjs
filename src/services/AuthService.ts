@@ -6,6 +6,10 @@ export class AuthService {
     return await supabase.auth.signInWithPassword({ email, password });
   }
 
+  public static async createUser(uuid: string, email: string) {
+    return await supabase.from("user_table").insert({ uuid, name: "", email, password: "" });
+  }
+
   public static async signUp({ email, password }: ILoginForm) {
     return await supabase.auth.signUp({ email, password });
   }
