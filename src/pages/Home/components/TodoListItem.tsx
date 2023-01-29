@@ -10,7 +10,7 @@ export interface ITodoListItemProps {
 export const TodoListItem: Component<ITodoListItemProps> = (props) => {
   const { updateTask, loading, setSelectedTask, setSelectedField } =
     useTaskStore;
-  const [field, sedField] = createSignal("");
+  const [field, setField] = createSignal("");
   const handleChange = async () => {
     const statusObj = { done: "pending", pending: "done" };
     const status = statusObj[
@@ -30,21 +30,21 @@ export const TodoListItem: Component<ITodoListItemProps> = (props) => {
 
   function handleClick(e: MouseEvent, field: string) {
     if (e.detail === 2) {
-      sedField(field);
+      setField(field);
     }
   }
 
   createEffect(() => {
-    if (field) {
+    if (field()) {
       setSelectedField("");
-      setSelectedField(field);
+      setSelectedField(field());
+      setSelectedTask({
+        description: props.task.description ?? "",
+        name: props.task.name,
+        status: props.task.status as ITaksFormStatus,
+        id: props.task.id,
+      });
     }
-    setSelectedTask({
-      description: props.task.description ?? "",
-      name: props.task.name,
-      status: props.task.status as ITaksFormStatus,
-      id: props.task.id,
-    });
   });
   return (
     <Grid
