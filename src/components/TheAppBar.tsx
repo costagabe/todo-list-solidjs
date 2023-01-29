@@ -1,7 +1,6 @@
 import { useNavigate } from "@solidjs/router";
 import { AppBar, Box, Stack, Toolbar, Typography } from "@suid/material";
 import BoxProps from "@suid/material/Box/BoxProps";
-import { ElementType } from "@suid/types";
 import { Component, JSXElement } from "solid-js";
 
 export interface ITheAppBarProps extends BoxProps {

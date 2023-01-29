@@ -1,25 +1,24 @@
 import { useLocation, useNavigate } from "@solidjs/router";
 import { Button, Grid, Stack, TextField } from "@suid/material";
 import { AuthResponse } from "@supabase/supabase-js";
-import { Component, createEffect, Show } from "solid-js";
+import { Component, Show } from "solid-js";
 import { useForm } from "../../../contexts/form";
 import { ILoginForm } from "../Login";
 
-interface iFormProps {}
-export const Form: Component<iFormProps> = () => {
+export const Form: Component = () => {
   const [state, actions] = useForm<ILoginForm, AuthResponse>();
   const navigate = useNavigate();
   const location = useLocation();
 
   const handleSubmit = async () => {
-    const { data, error } = await actions.submit();
+    const { error } = await actions.submit();
     if (!error) {
       navigate("/");
     }
   };
   return (
     <form
-      onsubmit={(e) => {
+      onSubmit={(e) => {
         e.preventDefault();
         handleSubmit();
       }}>

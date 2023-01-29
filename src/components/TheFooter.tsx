@@ -1,4 +1,4 @@
-import { AppBar, Box, Toolbar, Typography } from "@suid/material";
+import { AppBar,  Toolbar, Typography } from "@suid/material";
 import { Component } from "solid-js";
 
 export const TheFooter: Component = () => {

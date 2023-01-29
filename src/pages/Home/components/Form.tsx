@@ -5,24 +5,25 @@ import { ConfirmDialog } from "../../../components/ConfirmDialog";
 import { useForm } from "../../../contexts/form";
 import { useTaskStore } from "../../../stores/task";
 
+export type ITaksFormStatus = "done" | "pending";
 export interface iTaskForm {
   name: string;
   description: string;
-  status?: "done" | "pending";
+  status?: ITaksFormStatus;
   id?: number | null;
 }
 
 export const Form: Component = () => {
-  const [state, actions] = useForm<iTaskForm, any>();
+  const [state, actions] = useForm<iTaskForm, object>();
   const { selectedTask, selectedField, setSelectedTask, deleteTask } =
     useTaskStore;
   const [showModal, setShowModal] = createSignal(false);
-  const fields = { name: null as any, description: null as any };
+  const fields = { name: {} as HTMLElement, description: {} as HTMLElement };
 
   createEffect(() => {
     if (selectedTask()) {
-      actions.setState("name", selectedTask()!.name!);
-      actions.setState("description", selectedTask()!.description!);
+      actions.setState("name", selectedTask().name);
+      actions.setState("description", selectedTask().description);
     }
   });
 
@@ -33,7 +34,7 @@ export const Form: Component = () => {
   });
 
   createEffect(() => {
-    if (selectedTask() && selectedTask()!.id) {
+    if (selectedTask() && selectedTask().id) {
       setSelectedTask(
         produce((task) => {
           task.description = state.description;
@@ -45,8 +46,8 @@ export const Form: Component = () => {
   });
 
   async function confirmDelete(value: boolean) {
-    if (value) {
-      await deleteTask(selectedTask()!.id!);
+    if (value && selectedTask() && selectedTask().id) {
+      await deleteTask(selectedTask().id as number);
     }
   }
 
@@ -54,10 +55,10 @@ export const Form: Component = () => {
     <>
       <form
         style={{ display: "flex", flex: 1 }}
-        onsubmit={(e) => {
+        onSubmit={(e) => {
           e.preventDefault();
           actions.submit();
-          actions.setState((v) => ({
+          actions.setState(() => ({
             description: "",
             name: "",
           }));

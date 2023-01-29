@@ -1,5 +1,5 @@
-import { Route, RouteProps, useLocation } from "@solidjs/router";
-import { Component, createEffect, JSXElement, onMount } from "solid-js";
+import { Route, useLocation } from "@solidjs/router";
+import { Component, createEffect, JSXElement } from "solid-js";
 import { useAuthStore } from "../stores/auth";
 
 interface IPrivateRouteProps {
@@ -7,19 +7,16 @@ interface IPrivateRouteProps {
   element: JSXElement;
 }
 
-export const PrivateRoute: Component<IPrivateRouteProps> = ({
-  path,
-  element,
-}) => {
+export const PrivateRoute: Component<IPrivateRouteProps> = (props) => {
   const { protectRoute } = useAuthStore;
   const location = useLocation();
   createEffect(() => {
-    protectRoute(location.pathname, path);
+    protectRoute(location.pathname, props.path);
   });
   return (
     <Route
-      path={path}
-      element={element}
+      path={props.path}
+      element={props.element}
     />
   );
 };

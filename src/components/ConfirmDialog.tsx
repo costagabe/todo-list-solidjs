@@ -8,14 +8,7 @@ import {
   Slide,
 } from "@suid/material";
 import { TransitionProps } from "@suid/material/transitions";
-import {
-  Accessor,
-  Component,
-  createSignal,
-  JSXElement,
-  Setter,
-  Signal,
-} from "solid-js";
+import { Accessor, Component, JSXElement, Setter } from "solid-js";
 
 const Transition = function Transition(
   props: TransitionProps & {
@@ -33,39 +26,41 @@ const Transition = function Transition(
 interface IConfirmDialogProps {
   open: Accessor<boolean>;
   setOpen: Setter<boolean>;
-  onClose: (value: boolean) => void;
+  // eslint-disable-next-line no-unused-vars
+  onClose: (value: boolean) => Promise<void>;
   children?: JSXElement;
   title: JSXElement;
 }
 
-export const ConfirmDialog: Component<IConfirmDialogProps> = ({
-  open,
-  setOpen,
-  onClose,
-  children,
-  title,
-}) => {
-  const handleClose = async (value: boolean) => {
-    await onClose(value);
-    setOpen(false);
+export const ConfirmDialog: Component<IConfirmDialogProps> = (props) => {
+  const handleClose = (value: boolean) => {
+    return value ? confirm : cancel;
+  };
+  const confirm = async () => {
+    await props.onClose(true);
+    props.setOpen(false);
+  };
+  const cancel = async () => {
+    await props.onClose(true);
+    props.setOpen(false);
   };
 
   return (
     <div>
       <Dialog
-        open={open()}
+        open={props.open()}
         TransitionComponent={Transition}
         onClose={handleClose}
         aria-describedby="alert-dialog-slide-description">
-        <DialogTitle>{title}</DialogTitle>
+        <DialogTitle>{props.title}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-slide-description">
-            {children}
+            {props.children}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => handleClose(false)}>Cancel</Button>
-          <Button onClick={() => handleClose(true)}>Confirm</Button>
+          <Button onClick={() => handleClose(true)}>Cancel</Button>
+          <Button onClick={() => handleClose(false)}>Confirm</Button>
         </DialogActions>
       </Dialog>
     </div>

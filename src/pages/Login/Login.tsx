@@ -1,14 +1,5 @@
 import { useLocation } from "@solidjs/router";
-import {
-  AppBar,
-  Box,
-  Button,
-  Container,
-  Paper,
-  Stack,
-  Toolbar,
-  Typography,
-} from "@suid/material";
+import { Box, Container, Paper, Stack, Typography } from "@suid/material";
 import { ContainerProps } from "@suid/material/Container";
 import { PaperProps } from "@suid/material/Paper";
 import { AuthResponse } from "@supabase/supabase-js";

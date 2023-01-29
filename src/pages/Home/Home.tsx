@@ -1,12 +1,5 @@
-import { Box, Paper, Stack, Typography, useTheme } from "@suid/material";
-import {
-  Accessor,
-  Component,
-  createEffect,
-  Setter,
-  Suspense,
-  useTransition,
-} from "solid-js";
+import { Box, Paper, Stack, Typography } from "@suid/material";
+import { Accessor, Component, createEffect, Setter } from "solid-js";
 import { TheFooter } from "../../components/TheFooter";
 import { TheProtectedAppBar } from "../../components/TheProtectedAppBar";
 import { FormProvider } from "../../contexts/form";
@@ -50,7 +43,7 @@ export const Home: Component = () => {
           <Paper sx={{ p: 2, mt: 8 }}>
             <Box>
               <Typography variant="h6">Add new</Typography>
-              <FormProvider<iTaskForm, any>
+              <FormProvider<iTaskForm, object>
                 submit={handleSubmit}
                 initialState={selectedTask()}>
                 <Form />

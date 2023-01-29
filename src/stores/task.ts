@@ -1,6 +1,5 @@
-import { Setter } from "solid-js";
-import { createSignal, createRoot } from "solid-js";
-import { createStore, produce } from "solid-js/store";
+import { createRoot, createSignal } from "solid-js";
+import { createStore } from "solid-js/store";
 import toast from "solid-toast";
 import { iTaskForm } from "../pages/Home/components/Form";
 import { TaskService } from "../services/TaskService";
@@ -21,7 +20,7 @@ function createUseTask() {
 
   async function fetchAll() {
     setLoading(true);
-    const { data, error } = await TaskService.fetchTasks(showFinished())!;
+    const { data, error } = await TaskService.fetchTasks(showFinished());
 
     const mappedTasks = data.flatMap((v) => {
       return v.task.map((t) => {
@@ -49,23 +48,25 @@ function createUseTask() {
     fetchAll();
     toast.success("Task updated successfully");
 
-    return { data, error }
+    return { data, error };
   }
 
   async function createTask(task: iTaskForm) {
 
-    if (selectedTask().id) return updateTask(selectedTask() as iTaskForm, selectedTask()?.id!);
+    if (selectedTask().id) return updateTask(selectedTask() as iTaskForm, selectedTask().id as number);
     setLoading(true);
     const { userId } = useAuthStore;
     if (!userId()) return;
+
     const newTask = {
       name: task.name,
       description: task.description,
       status: "pending",
-      owner: userId()!,
+      owner: userId() as number,
       due_date: new Date().toISOString()
-    }
-    const { data, error } = await TaskService.createTask(newTask);
+    };
+
+    const { error } = await TaskService.createTask(newTask);
     setLoading(false);
     if (error) {
       return;
@@ -78,7 +79,7 @@ function createUseTask() {
 
   async function deleteTask(id: number) {
     setLoading(true);
-    const { data, error } = await TaskService.deleteTask(id);
+    const { error } = await TaskService.deleteTask(id);
     setLoading(false);
     if (error) {
       return;

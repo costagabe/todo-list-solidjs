@@ -1,16 +1,12 @@
-import {
-  createContext,
-  useContext,
-  JSXElement,
-  Context,
-} from "solid-js";
+import { Context, createContext, JSXElement, useContext } from "solid-js";
 import { createStore, SetStoreFunction } from "solid-js/store";
 
 // T is the form type
 // K is the response type
 interface IFormProviderProps<T, K> {
   initialState: T;
-  submit: (form: T) => K  ;
+  // eslint-disable-next-line no-unused-vars
+  submit: (form: T) => K;
   children: JSXElement;
 }
 
@@ -28,7 +24,7 @@ type IFormStore<T, K> = [
   }
 ];
 
-let FormContextGeneric = <T, K>() => createContext<IFormStore<T, K>>();
+const FormContextGeneric = <T, K>() => createContext<IFormStore<T, K>>();
 let FormContext: unknown;
 
 export function FormProvider<T extends object, K extends object>(
@@ -68,6 +64,6 @@ export function FormProvider<T extends object, K extends object>(
 
 export function useForm<T, K>() {
   return useContext<IFormStore<T, K>>(
-    FormContext! as Context<IFormStore<T, K>>
+    FormContext as Context<IFormStore<T, K>>
   );
 }

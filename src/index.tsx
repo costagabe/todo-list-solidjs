@@ -1,11 +1,9 @@
 /* @refresh reload */
 import { render } from "solid-js/web";
 
-import "./index.css";
+import { Router } from "@solidjs/router";
 import App from "./App";
-import { hashIntegration, Router } from "@solidjs/router";
-import { Toaster } from "solid-toast";
-import { Typography } from "@suid/material";
+import "./index.css";
 
 render(
   () => (

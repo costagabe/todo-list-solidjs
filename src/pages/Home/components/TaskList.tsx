@@ -1,15 +1,11 @@
-import { useTheme, Grid, Stack, Typography, Switch } from "@suid/material";
-import {
-  Component,
-  For,
-  Suspense,
-} from "solid-js";
+import { Grid, Stack, Switch, Typography, useTheme } from "@suid/material";
+import { Component, For, Suspense } from "solid-js";
 import { useTaskStore } from "../../../stores/task";
 import { TodoListItem } from "./TodoListItem";
 
 export const TaskList: Component = () => {
   const theme = useTheme();
-  const { tasks, showFinished, setShowFinished, loading } = useTaskStore;
+  const { tasks, showFinished, setShowFinished } = useTaskStore;
 
   return (
     <Grid

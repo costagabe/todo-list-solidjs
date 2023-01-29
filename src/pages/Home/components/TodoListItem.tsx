@@ -1,42 +1,51 @@
 import { Box, Checkbox, Grid, Paper, Stack, Typography } from "@suid/material";
-import { Component, createEffect, onMount, Setter, Suspense } from "solid-js";
+import { Component, createEffect, createSignal, Suspense } from "solid-js";
 import { Task, useTaskStore } from "../../../stores/task";
-import { supabase } from "../../../utils/SupabaseClient";
-import { iTaskForm } from "./Form";
+import type { ITaksFormStatus } from "./Form";
 
 export interface ITodoListItemProps {
   task: Task;
 }
 
-export const TodoListItem: Component<ITodoListItemProps> = ({ task }) => {
+export const TodoListItem: Component<ITodoListItemProps> = (props) => {
   const { updateTask, loading, setSelectedTask, setSelectedField } =
     useTaskStore;
+  const [field, sedField] = createSignal("");
   const handleChange = async () => {
-    const status = { done: "pending", pending: "done" }[task.status]! as
-      | "done"
-      | "pending";
+    const statusObj = { done: "pending", pending: "done" };
+    const status = statusObj[
+      props.task.status as keyof typeof statusObj
+    ] as ITaksFormStatus;
 
     await updateTask(
-      { description: task.description!, name: task.name, status: status! },
-      task.id
+      {
+        description: props.task.description ?? "",
+        name: props.task.name,
+        status: status,
+      },
+      props.task.id
     );
   };
-  const checked = () => task.status === "done";
+  const checked = () => props.task.status === "done";
 
   function handleClick(e: MouseEvent, field: string) {
     if (e.detail === 2) {
-      setSelectedTask((v) => ({
-        description: task.description!,
-        name: task.name,
-        status: task.status! as "done" | "pending",
-        id: task.id,
-      }));
-      if (!!field) {
-        setSelectedField("");
-        setSelectedField(field);
-      }
+      sedField(field);
     }
   }
+
+  createEffect(() => {
+    if (field) {
+      setSelectedField("");
+      setSelectedField(field);
+    }
+    setSelectedTask({
+      description: props.task.description ?? "",
+      name: props.task.name,
+      status: props.task.status as ITaksFormStatus,
+      id: props.task.id,
+    });
+  });
   return (
     <Grid
       item
@@ -67,14 +76,14 @@ export const TodoListItem: Component<ITodoListItemProps> = ({ task }) => {
                   variant="h6"
                   sx={{ p: 1, flexBasis: "100%" }}
                   onClick={(e) => handleClick(e, "name")}>
-                  {task.name}
+                  {props.task.name}
                 </Typography>
                 <Typography
                   component="div"
                   variant="caption"
                   sx={{ p: 1, flexBasis: "100%" }}
                   onClick={(e) => handleClick(e, "description")}>
-                  {task.description}
+                  {props.task.description}
                 </Typography>
               </div>
               <Checkbox

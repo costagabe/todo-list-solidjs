@@ -9,7 +9,7 @@ import { supabase } from "../utils/SupabaseClient";
 const publicRoutes = ["/login", "/register"];
 function createUseAuth() {
   const [loading, setLoading] = createSignal(false);
-  const [userUUID, setUserUUID] = createSignal<String>();
+  const [userUUID, setUserUUID] = createSignal<string>();
   const [userId, setUserId] = createSignal<number>();
 
   //Pathname is the current path path is the path to protect came from the route
@@ -28,7 +28,7 @@ function createUseAuth() {
       }
       return;
     }
-    setUserUUID(data.session.user.id)
+    setUserUUID(data.session.user.id);
 
     if (publicRoutes.includes(path)) {
       navigate("/");
@@ -41,10 +41,12 @@ function createUseAuth() {
     const res = await AuthService.signIn({ email, password });
     setLoading(false);
     if (!res.error) {
-      setUserUUID(res.data.user!.id)
+      if (res.data.user) {
+        setUserUUID(res.data.user.id);
+      }
     } else {
       if (res.error.message === "Email not confirmed") {
-        toast.error("Please verify your email")
+        toast.error("Please verify your email");
         return res;
       }
       toast.error("Invalid credentials");
@@ -56,7 +58,7 @@ function createUseAuth() {
   async function signOut() {
     setLoading(true);
     await AuthService.signOut();
-    setUserUUID(undefined)
+    setUserUUID(undefined);
     setLoading(false);
   }
 
@@ -64,9 +66,11 @@ function createUseAuth() {
     setLoading(true);
     const res = await AuthService.signUp({ email, password });
     if (!res.error) {
-      setUserUUID(res.data.user!.id)
+      if (res.data.user) {
+        setUserUUID(res.data.user.id);
+      }
     }
-    toast.success("User created successfully, please verify your email")
+    toast.success("User created successfully, please verify your email");
     setLoading(false);
 
     return res;
@@ -79,10 +83,10 @@ function createUseAuth() {
       .select("id")
       .filter("uuid", "eq", userUUID()).then(({ data, error }) => {
         if (!error) {
-          setUserId(data![0].id);
+          setUserId(data[0].id);
         }
       });
-  })
+  });
 
   return { signIn, loading, protectRoute, signOut, signUp, userUUID, userId };
 }
