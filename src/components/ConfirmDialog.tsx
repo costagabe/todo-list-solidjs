@@ -59,8 +59,8 @@ export const ConfirmDialog: Component<IConfirmDialogProps> = (props) => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => handleClose(true)}>Cancel</Button>
-          <Button onClick={() => handleClose(false)}>Confirm</Button>
+          <Button onClick={() => handleClose(true)()}>Cancel</Button>
+          <Button onClick={() => handleClose(false)()}>Confirm</Button>
         </DialogActions>
       </Dialog>
     </div>
