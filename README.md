@@ -1,34 +1,48 @@
-## Usage
+# Todo List with SolidJS
 
-Those templates dependencies are maintained via [pnpm](https://pnpm.io) via `pnpm up -Lri`.
+This is a to-do list website built using [SolidJS](https://solid.js.org/) and [Supabase](https://supabase.com/). It is a functional and user-friendly application that allows you to manage your tasks effectively.
 
-This is the reason you see a `pnpm-lock.yaml`. That being said, any package manager will work. This file can be safely be removed once you clone a template.
+## Features
 
-```bash
-$ npm install # or pnpm install or yarn install
+- Add, edit, and delete tasks
+- Mark tasks as complete or incomplete
+- Filter tasks based on completion status
+
+## Tech Stack
+
+- [SolidJS](https://solid.js.org/): A reactive JavaScript framework for building modern web applications.
+- [TypeScript](https://www.typescriptlang.org/): A statically typed language that builds on JavaScript.
+- [Supabase](https://supabase.com/): A open source BAAS, used on backend.
+
+## Getting Started
+
+1. Clone the repository
+   `git clone https://github.com/costagabe/todo-list-solidjs.git`
+
+2. Install dependencies
+
+```
+npm install
+
+or
+
+yarn
 ```
 
-### Learn more on the [Solid Website](https://solidjs.com) and come chat with us on our [Discord](https://discord.com/invite/solidjs)
+3. Start the application
 
-## Available Scripts
+```
+npm run dev
 
-In the project directory, you can run:
+or
 
-### `npm dev` or `npm start`
+yarn dev
+```
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Contributing
 
-The page will reload if you make edits.<br>
+If you would like to contribute to this project, please create a pull request with a detailed description of your changes.
 
-### `npm run build`
+## License
 
-Builds the app for production to the `dist` folder.<br>
-It correctly bundles Solid in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
-
-## Deployment
-
-You can deploy the `dist` folder to any static host provider (netlify, surge, now, etc.)
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
